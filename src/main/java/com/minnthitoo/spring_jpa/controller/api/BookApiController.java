@@ -18,7 +18,7 @@ public class BookApiController {
         return this.bookDao.findAll();
     }
 
-    @GetMapping("/{bookId")
+    @GetMapping("/{bookId}")
     public Book getBookById(@PathVariable("bookId") Long bookId) {
         return this.bookDao.findById(bookId).get();
     }
@@ -37,7 +37,7 @@ public class BookApiController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{bookId}")
     public void deleteBook(@PathVariable("bookId") Long bookId) {
         this.bookDao.deleteById(bookId);
     }
