@@ -3,6 +3,8 @@ package com.minnthitoo.spring_jpa.dao;
 import com.minnthitoo.spring_jpa.model.dto.GenreCountDto;
 import com.minnthitoo.spring_jpa.model.dto.TitleAndGenre;
 import com.minnthitoo.spring_jpa.model.entity.Movie;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -48,5 +50,10 @@ public interface MovieDao extends CrudRepository<Movie, Long> {
 
     @Query("select m from Movie m left join m.comments comments")
     List<Movie> getMovieByCommentsLeftJoin();
+
+    @Modifying
+    @Transactional
+    @Query("insert Movie(title) values (?1), (?2)")
+    int insertTwoMovies(String title1, String title2);
 
 }

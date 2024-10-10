@@ -114,4 +114,12 @@ public class MovieDaoTest {
         }
     }
 
+    // insert test
+    @Test
+    @Transactional
+    void saveTwoMoviesTest(){
+        int insertTwoMovies = this.movieDao.insertTwoMovies("Movie1", "Movie2");
+        log.info("Insert two movies : {}", insertTwoMovies);
+    }
+
 }
