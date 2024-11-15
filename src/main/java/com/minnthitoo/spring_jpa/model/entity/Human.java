@@ -4,23 +4,28 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Formula;
 
 import java.io.Serial;
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper=true)
-@Data
+@Getter
+@Setter
 @MappedSuperclass
 public class Human extends BaseEntity {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    Name name;
+    // Name name;
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
+
+    @Formula(value = "CONCAT(first_name, \" \", last_name)")
+    private String fullName;
 
     @Column
     @Enumerated(EnumType.STRING)

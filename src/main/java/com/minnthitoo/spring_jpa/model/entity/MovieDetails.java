@@ -22,7 +22,9 @@ public class MovieDetails extends BaseEntity {
 
     @JsonIgnore
     @ToString.Exclude
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "movie_id")
     private Movie movie;
 }

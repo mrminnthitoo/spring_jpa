@@ -2,17 +2,16 @@ package com.minnthitoo.spring_jpa.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serial;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@EqualsAndHashCode(exclude = "movieDetails", callSuper = true)
-@Data
-@ToString(callSuper = true)
+@Getter
+@Setter
 @Entity
 public class Movie extends BaseEntity {
     @Serial
@@ -34,10 +33,16 @@ public class Movie extends BaseEntity {
             cascade = CascadeType.ALL)
     private MovieDetails movieDetails;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            }
+    )
     @JoinTable(name = "actor_in_movie",
     joinColumns = {@JoinColumn(name = "movie_id")}, inverseJoinColumns = {@JoinColumn(name = "actor_id")})
-    private List<Actor> actors = new ArrayList<>();
+    private Set<Actor> actors = new HashSet<>();
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -49,12 +54,15 @@ public class Movie extends BaseEntity {
 
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
     )
     @JoinTable(name = "director_in_movie",
             joinColumns = {@JoinColumn(name = "movie_id")},
             inverseJoinColumns = {@JoinColumn(name = "director_id")}
     )
-    private List<Director> directors = new ArrayList<>();
+    private Set<Director> directors = new HashSet<>();
 
 }

@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface ActorDao extends PagingAndSortingRepository<Actor, Long>, CrudRepository<Actor, Long> {
 
+    /*
     @Query("select extract(year from birthday) from Actor")
     List<Integer> getYears();
 
@@ -28,5 +29,6 @@ public interface ActorDao extends PagingAndSortingRepository<Actor, Long>, CrudR
     @Transactional
     @Query("delete Actor actor where actor.id = ?1")
     int deleteActorById(Long id);
+     */
 
 }

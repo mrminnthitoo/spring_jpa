@@ -5,15 +5,15 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Setter
+@Getter
 @Entity
 public class Director extends Human{
 
@@ -21,9 +21,9 @@ public class Director extends Human{
     @ToString.Exclude
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST,
             mappedBy = "directors"
     )
-    List<Movie> movies = new ArrayList<>();
+    Set<Movie> movies = new HashSet<>();
 
 }

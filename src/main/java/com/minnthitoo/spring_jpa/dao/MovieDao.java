@@ -4,6 +4,7 @@ import com.minnthitoo.spring_jpa.model.dto.GenreCountDto;
 import com.minnthitoo.spring_jpa.model.dto.TitleAndGenre;
 import com.minnthitoo.spring_jpa.model.entity.Movie;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -13,10 +14,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MovieDao extends CrudRepository<Movie, Long> {
+public interface MovieDao extends CrudRepository<Movie, Long>, JpaSpecificationExecutor<Movie> {
 
-    @Query(value = "select * from movie where title=?1", nativeQuery = true)
-    Movie findByTitleNative(String title);
+
+    @Query(value = "select m from Movie m where m.title like %?1%")
+    List<Movie> findByTitleNative(String title);
 
     @Query(value = "select movie from Movie movie")
     List<Movie> hqlGetAllMovies();
@@ -42,7 +44,7 @@ public interface MovieDao extends CrudRepository<Movie, Long> {
     @Query("select m from Movie m where m.year between ?1 and ?2")
     List<Movie> getMoviesByYearBetween(Long year1, Long year2);
 
-    @Query("select m from Movie m join m.actors actors where actors.name.firstName like %?1% and actors.name.lastName like %?2%")
+    @Query("select m from Movie m join m.actors actors where actors.firstName like %?1% and actors.lastName like %?2%")
     List<Movie> getMoviesByFirstAndLastName(String firstName, String lastName);
 
     @Query("select m from Movie m join m.comments comments")
