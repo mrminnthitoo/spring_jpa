@@ -91,4 +91,12 @@ public class BookRepositoryQueryMethodTest {
         }
     }
 
+    @Test
+    public void findBookByTitleTest(){
+        List<Book> books = this.bookRepository.findBookTitle("Book 1");
+        for (Book book : books){
+            log.info("{}", book);
+        }
+    }
+
 }

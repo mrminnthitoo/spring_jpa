@@ -2,6 +2,7 @@ package com.minnthitoo.spring_jpa.repository;
 
 import com.minnthitoo.spring_jpa.model.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -79,6 +80,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     In -> Operator
      */
     List<Book> findByYearIn(List<Long> years);
+
+    // custom query
+    @Query(value = "select b from Book b where b.title =?1")
+    List<Book> findBookTitle(String title);
 
 
 }
