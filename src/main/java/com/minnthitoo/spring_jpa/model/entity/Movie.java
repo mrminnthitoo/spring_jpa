@@ -20,4 +20,11 @@ public class Movie extends BaseEntity {
     @Column
     private String genre;
 
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "movie"
+    )
+    private MovieDetails movieDetails;
+
 }
