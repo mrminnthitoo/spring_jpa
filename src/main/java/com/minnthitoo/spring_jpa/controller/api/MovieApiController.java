@@ -20,7 +20,6 @@ public class MovieApiController {
     private MovieRepository movieRepository;
 
     @GetMapping
-    @Transactional
     List<Movie> getAllmovies(){
         return this.movieRepository.findAll();
     }

@@ -50,4 +50,14 @@ public class Movie extends BaseEntity {
     )
     private List<Actor> actors = new ArrayList<>();
 
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @JoinTable(name = "director_in_movie",
+            joinColumns = {@JoinColumn(name = "movie_id")},
+            inverseJoinColumns = {@JoinColumn(name = "director_id")}
+    )
+    private List<Director> directors = new ArrayList<>();
+
 }
