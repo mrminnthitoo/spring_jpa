@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ToString(callSuper = true)
@@ -26,5 +29,15 @@ public class Movie extends BaseEntity {
             mappedBy = "movie"
     )
     private MovieDetails movieDetails;
+
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @JoinTable(name = "actor_in_movie",
+            joinColumns = {@JoinColumn(name = "movie_id")},
+            inverseJoinColumns = {@JoinColumn(name = "actor_id")}
+    )
+    private List<Actor> actors = new ArrayList<>();
 
 }

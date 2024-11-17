@@ -8,7 +8,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@ToString
+@ToString(callSuper = true)
 @Entity
 public class MovieDetails extends BaseEntity{
 
@@ -16,6 +16,7 @@ public class MovieDetails extends BaseEntity{
     private String details;
 
     @JsonIgnore
+    @ToString.Exclude
     @OneToOne(
             cascade = CascadeType.ALL
     )

@@ -2,6 +2,7 @@ package com.minnthitoo.spring_jpa.controller.api;
 
 import com.minnthitoo.spring_jpa.model.entity.Movie;
 import com.minnthitoo.spring_jpa.repository.MovieRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ public class MovieApiController {
     private MovieRepository movieRepository;
 
     @GetMapping
+    @Transactional
     List<Movie> getAllmovies(){
         return this.movieRepository.findAll();
     }

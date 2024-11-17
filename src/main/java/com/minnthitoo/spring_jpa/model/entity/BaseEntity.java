@@ -2,6 +2,7 @@ package com.minnthitoo.spring_jpa.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@ToString
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
