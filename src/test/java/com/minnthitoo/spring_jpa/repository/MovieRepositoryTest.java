@@ -27,12 +27,12 @@ public class MovieRepositoryTest {
     @Test
     public void insertMovie(){
         Movie movie = new Movie();
-        movie.setTitle("Titanic");
+        movie.setTitle("Test");
         movie.setYear(1998L);
-        movie.setGenre("Drama");
+        movie.setGenre("Action");
 
         MovieDetails movieDetails = new MovieDetails();
-        movieDetails.setDetails("Titanic Movie Details");
+        movieDetails.setDetails("Test Details");
 
         movie.setMovieDetails(movieDetails);
         movieDetails.setMovie(movie);

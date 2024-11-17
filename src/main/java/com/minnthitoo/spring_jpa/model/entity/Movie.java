@@ -30,6 +30,16 @@ public class Movie extends BaseEntity {
     )
     private MovieDetails movieDetails;
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    @JoinColumn(
+            name = "movie_id"
+    )
+    private List<Comment> comments = new ArrayList<>();
+
     @ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
