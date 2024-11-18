@@ -1,5 +1,6 @@
 package com.minnthitoo.spring_jpa.repository;
 
+import com.minnthitoo.spring_jpa.model.dto.TitleAndGenre;
 import com.minnthitoo.spring_jpa.model.entity.Movie;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,14 @@ public class MovieHQLTest {
         List<Movie> movies = this.movieRepository.getAllMovie();
         for (Movie movie : movies){
             log.info("{}", movie);
+        }
+    }
+
+    @Test
+    public void testProjection(){
+        List<TitleAndGenre> titleAndGenres = this.movieRepository.getAllTitleAndGenre();
+        for (TitleAndGenre titleAndGenre : titleAndGenres){
+            log.info("{}, {}", titleAndGenre.getTitle(), titleAndGenre.getGenre());
         }
     }
 
