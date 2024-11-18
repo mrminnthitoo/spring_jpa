@@ -86,4 +86,11 @@ public class MovieRepositoryTest {
         log.info("Actors -> {}", actors);
     }
 
+    @Transactional
+    @Test
+    public void getAllMoviesNativeTest(){
+        Movie movie = this.movieRepository.getAllMoviesNative("Titanic");
+        log.info("{}", movie);
+    }
+
 }
