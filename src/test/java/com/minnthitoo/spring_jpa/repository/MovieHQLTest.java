@@ -34,4 +34,43 @@ public class MovieHQLTest {
         }
     }
 
+    @Test
+    public void testGetAllGenre(){
+        List<String> genres = this.movieRepository.getAllGenre();
+        genres.forEach(log::info);
+    }
+
+    @Transactional
+    @Test
+    public void testGetAllMovieLike(){
+        List<Movie> movies = this.movieRepository.getAllMovieLike("Titanic");
+        for (Movie movie : movies){
+            log.info("{}", movie);
+        }
+    }
+
+    @Test
+    public void testFindTotalMovieByGenres(){
+        int count = this.movieRepository.findTotalMovieByGenres("Drama");
+        log.info("Count {}", count);
+    }
+
+    @Test
+    public void testGetAllMovieWithYearGTE(){
+        List<Movie> movies = this.movieRepository.getAllMovieWithYearGTE(2010L);
+        log.info("Movie Count {}", movies.size());
+    }
+
+    @Test
+    public void testGetAllMovieWithYearAndGenre(){
+        List<Movie> movies = this.movieRepository.getAllMovieWithYearAndGenre(2010L, "Action");
+        log.info("Movie count {}", movies.size());
+    }
+
+    @Test
+    public void testGetAllMoviesBetween(){
+        List<Movie> movies = this.movieRepository.getAllMoviesBetween(2010L, 2020L);
+        log.info("Movie count {}", movies.size());
+    }
+
 }
