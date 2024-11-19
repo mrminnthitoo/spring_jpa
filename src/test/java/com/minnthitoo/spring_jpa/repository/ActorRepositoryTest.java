@@ -2,15 +2,13 @@ package com.minnthitoo.spring_jpa.repository;
 
 import com.minnthitoo.spring_jpa.model.entity.Actor;
 import com.minnthitoo.spring_jpa.model.entity.enums.Gender;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -21,16 +19,21 @@ public class ActorRepositoryTest {
 
     @Test
     public void insertActor(){
-        Actor actor = new Actor();
-        actor.setFirstName("Leonardo");
-        actor.setLastName("Dicaprio");
+        for (int i = 0; i < 30; i++) {
+            Actor actor = new Actor();
+            actor.setFirstName("Actor");
+            actor.setLastName(String.valueOf(i+5));
 
-        // birthday
-        Date birthday = new GregorianCalendar(1974, Calendar.NOVEMBER, 11).getTime();
+            Random random = new Random();
 
-        actor.setBirthday(birthday);
-        actor.setGender(Gender.MALE);
-        this.actorRepository.save(actor);
+            // birthday
+            Date birthday = new GregorianCalendar(random.nextInt(1970, 2020), Calendar.NOVEMBER, 11).getTime();
+
+            actor.setBirthday(birthday);
+            actor.setGender(Gender.MALE);
+            this.actorRepository.save(actor);
+        }
+
     }
 
     @Test
@@ -38,5 +41,20 @@ public class ActorRepositoryTest {
         Optional<Actor> actor = this.actorRepository.findById(1L);
         log.info("{}", actor.get());
     }
+
+    @Transactional
+    @Test
+    public void testGetActorWithLimitOffset(){
+        //first page -> 10, 0
+        List<Actor> actors = this.actorRepository.getActorWithLimitOffset(10, 0);
+
+        //second page -> 10, 11
+        // List<Actor> actors = this.actorRepository.getActorWithLimitOffset(10, 11);
+
+        for (Actor actor : actors){
+            log.info("{}", actor);
+        }
+    }
+
 
 }
