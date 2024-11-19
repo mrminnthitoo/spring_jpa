@@ -10,10 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.*;
 
 @Slf4j
+@Rollback(value = false)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ActorRepositoryTest {
 
@@ -67,6 +69,13 @@ public class ActorRepositoryTest {
         for (Actor actor : actors){
             log.info("{}", actor);
         }
+    }
+
+    @Test
+    @Transactional
+    public void updateActorNameWithActorId(){
+        int updatedRow = this.actorRepository.updateActorNameById(2L, "Actor", "2 update");
+        log.info("Updated {}", updatedRow);
     }
 
 
