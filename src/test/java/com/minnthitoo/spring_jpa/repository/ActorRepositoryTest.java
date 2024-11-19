@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 
@@ -51,6 +54,16 @@ public class ActorRepositoryTest {
         //second page -> 10, 11
         // List<Actor> actors = this.actorRepository.getActorWithLimitOffset(10, 11);
 
+        for (Actor actor : actors){
+            log.info("{}", actor);
+        }
+    }
+
+    @Test
+    @Transactional
+    public void testPaging(){
+        Pageable firstPageWithTwoElements = PageRequest.of(0, 2);
+        Page<Actor> actors = this.actorRepository.findAll(firstPageWithTwoElements);
         for (Actor actor : actors){
             log.info("{}", actor);
         }
