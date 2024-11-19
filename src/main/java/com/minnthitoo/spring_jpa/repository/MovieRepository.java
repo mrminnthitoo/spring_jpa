@@ -38,4 +38,13 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query("select m from Movie m where m.year between ?1 and ?2")
     List<Movie> getAllMoviesBetween(Long start, Long end);
 
+    @Query("select m from Movie m join m.actors actors where actors.firstName like ?1 and actors.lastName like ?2")
+    List<Movie> getAllMoviesWithActorIn(String firstName, String lastName);
+
+    @Query("select m from Movie m join m.comments comments")
+    List<Movie> getMoviesWithComments();
+
+    @Query("select m from Movie m left join m.comments comments")
+    List<Movie> getMoviesWithCommentsLeftJoin();
+
 }

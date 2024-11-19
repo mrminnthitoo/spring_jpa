@@ -73,4 +73,31 @@ public class MovieHQLTest {
         log.info("Movie count {}", movies.size());
     }
 
+    @Transactional
+    @Test
+    public void testGetAllMoviesWithActorIn(){
+        List<Movie> movies = this.movieRepository.getAllMoviesWithActorIn("Actor", "1");
+        for (Movie movie : movies){
+            log.info("{}", movie);
+        }
+    }
+
+    @Transactional
+    @Test
+    public void testGetMoviesWithComments(){
+        List<Movie> movies = this.movieRepository.getMoviesWithComments();
+        for (Movie movie : movies){
+            log.info("{}", movie);
+        }
+    }
+
+    @Transactional
+    @Test
+    public void testGetMoviesWithCommentsLeftJoin(){
+        List<Movie> movies = this.movieRepository.getMoviesWithCommentsLeftJoin();
+        for (Movie movie : movies){
+            log.info("{}", movie);
+        }
+    }
+
 }
