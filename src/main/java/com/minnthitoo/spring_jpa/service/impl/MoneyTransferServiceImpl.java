@@ -16,28 +16,38 @@ public class MoneyTransferServiceImpl implements MoneyTransferService {
     private BankAccountRepository bankAccountRepository;
 
     @Override
-    public void sendMoney(Long fromAccount, Long toAccount, Double amount) {
+    public void sendMoney(Long fromAccount, Long toAccount, Double amount) throws Exception {
 
         this.debit(fromAccount, amount);
         this.credit(toAccount, amount);
 
     }
 
-    private void debit(Long fromAccount, Double amount){
+    private void debit(Long fromAccount, Double amount) throws Exception {
         Optional<BankAccount> result = this.bankAccountRepository.findById(fromAccount);
         if (result.isPresent()){
             BankAccount account = result.get();
-            account.setBalance(account.getBalance() - amount);
-            this.bankAccountRepository.save(account);
+            if (account.getBalance() >= amount){
+                account.setBalance(account.getBalance() - amount);
+                this.bankAccountRepository.save(account);
+            }else {
+                throw new Exception("Invalid debit amount");
+            }
+
         }
     }
 
-    private void credit(Long toAccount, Double amount){
+    private void credit(Long toAccount, Double amount) throws Exception {
         Optional<BankAccount> result = this.bankAccountRepository.findById(toAccount);
         if (result.isPresent()){
             BankAccount account = result.get();
-            account.setBalance(account.getBalance() + amount);
-            this.bankAccountRepository.save(account);
+            if (amount >= 0){
+                account.setBalance(account.getBalance() + amount);
+                this.bankAccountRepository.save(account);
+            }else {
+                throw new Exception("Invalid credit amount");
+            }
+
         }
     }
 

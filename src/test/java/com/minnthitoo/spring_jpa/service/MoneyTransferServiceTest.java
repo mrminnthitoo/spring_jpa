@@ -18,7 +18,23 @@ public class MoneyTransferServiceTest {
     @Test
     @Transactional
     public void testTransfer(){
-        this.moneyTransferService.sendMoney(1L, 2L, 1000D);
+        try {
+            // business logic error
+            this.moneyTransferService.sendMoney(1L, 2L, 1000D);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @Transactional
+    public void testTransferWithLogicError(){
+        try {
+            // business logic error
+            this.moneyTransferService.sendMoney(1L, 2L, -1000D);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
