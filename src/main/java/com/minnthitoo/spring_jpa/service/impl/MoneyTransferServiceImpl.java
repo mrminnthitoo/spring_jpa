@@ -3,6 +3,7 @@ package com.minnthitoo.spring_jpa.service.impl;
 import com.minnthitoo.spring_jpa.model.entity.BankAccount;
 import com.minnthitoo.spring_jpa.repository.BankAccountRepository;
 import com.minnthitoo.spring_jpa.service.MoneyTransferService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ public class MoneyTransferServiceImpl implements MoneyTransferService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public void sendMoney(Long fromAccount, Long toAccount, Double amount) throws Exception {
 
