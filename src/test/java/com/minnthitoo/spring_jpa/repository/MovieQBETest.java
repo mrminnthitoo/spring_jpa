@@ -34,4 +34,21 @@ public class MovieQBETest {
 
     }
 
+    @Transactional
+    @Test
+    public void testMovieQBEGetMovieWithTitle(){
+        Movie movie = new Movie();
+        movie.setTitle("Movie");
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::startsWith);
+//                .withIgnorePaths("genre");
+        Example<Movie> example = Example.of(movie, matcher);
+        List<Movie> movies = this.movieRepository.findAll(example);
+        movies.forEach(each->{
+            log.info("{}", each);
+        });
+
+    }
+
 }
