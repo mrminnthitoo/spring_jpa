@@ -21,7 +21,7 @@ public class Director extends Human{
     @JsonIgnore
     @ToString.Exclude
     @ManyToMany(
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY,
             mappedBy = "directors"
     )

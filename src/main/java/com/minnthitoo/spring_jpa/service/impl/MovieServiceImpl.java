@@ -77,6 +77,7 @@ public class MovieServiceImpl implements MovieService {
         }
     }
 
+    @Transactional
     @Override
     public MovieDto deleteMovie(MovieDto movieDto) throws NotFoundException {
         Optional<Movie> movieToDelete = this.movieRepository.findById(movieDto.getId());

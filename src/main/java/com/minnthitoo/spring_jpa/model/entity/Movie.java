@@ -41,7 +41,10 @@ public class Movie extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany(
-            cascade = CascadeType.ALL,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
             fetch = FetchType.LAZY
     )
     @JoinTable(name = "actor_in_movie",
@@ -51,7 +54,10 @@ public class Movie extends BaseEntity {
     private List<Actor> actors = new ArrayList<>();
 
     @ManyToMany(
-            cascade = CascadeType.ALL,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
             fetch = FetchType.LAZY
     )
     @JoinTable(name = "director_in_movie",
