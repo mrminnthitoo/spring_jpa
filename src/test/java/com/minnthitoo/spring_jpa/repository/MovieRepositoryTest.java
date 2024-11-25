@@ -14,6 +14,7 @@ import org.springframework.test.annotation.Rollback;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Rollback(value = false)
@@ -82,7 +83,7 @@ public class MovieRepositoryTest {
         Movie movie = result.get();
 
         log.info("Title -> {}", movie.getTitle());
-        List<Actor> actors = movie.getActors();
+        Set<Actor> actors = movie.getActors();
         log.info("Actors -> {}", actors);
     }
 

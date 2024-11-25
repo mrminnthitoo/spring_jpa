@@ -8,11 +8,16 @@ import java.util.Optional;
 
 public interface MovieService {
     List<MovieDto> getAllMovies();
+
+    List<MovieDto> getMoviesByTitle(String title);
+
     Optional<MovieDto> getMovieById(Long movieId);
 
     MovieDto createMovie(MovieDto movieDto);
 
     MovieDto updateMovie(MovieDto movieDto) throws NotFoundException;
     MovieDto deleteMovie(MovieDto movieDto) throws NotFoundException;
+
+    MovieDto assignActorToMovie(Long movieId, Long actorId) throws NotFoundException;
 
 }

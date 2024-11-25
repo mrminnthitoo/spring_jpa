@@ -2,13 +2,10 @@ package com.minnthitoo.spring_jpa.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-@ToString(callSuper = true)
+@Getter
+@Setter
 @Entity
 public class MovieDetails extends BaseEntity{
 

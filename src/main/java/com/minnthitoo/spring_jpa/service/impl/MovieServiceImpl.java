@@ -3,8 +3,10 @@ package com.minnthitoo.spring_jpa.service.impl;
 import com.minnthitoo.spring_jpa.common.Mapper;
 import com.minnthitoo.spring_jpa.common.response.exception.NotFoundException;
 import com.minnthitoo.spring_jpa.model.dto.MovieDto;
+import com.minnthitoo.spring_jpa.model.entity.Actor;
 import com.minnthitoo.spring_jpa.model.entity.Movie;
 import com.minnthitoo.spring_jpa.model.entity.MovieDetails;
+import com.minnthitoo.spring_jpa.repository.ActorRepository;
 import com.minnthitoo.spring_jpa.repository.MovieRepository;
 import com.minnthitoo.spring_jpa.service.MovieService;
 import jakarta.transaction.Transactional;
@@ -25,12 +27,22 @@ public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
 
     @Autowired
+    private ActorRepository actorRepository;
+
+    @Autowired
     private Mapper mapper;
 
     @Transactional
     @Override
     public List<MovieDto> getAllMovies() {
         List<Movie> movies = this.movieRepository.findAll();
+        return this.mapper.mapList(movies, MovieDto.class);
+    }
+
+    @Transactional
+    @Override
+    public List<MovieDto> getMoviesByTitle(String title) {
+        List<Movie> movies = this.movieRepository.getAllMovieLike(title);
         return this.mapper.mapList(movies, MovieDto.class);
     }
 
@@ -54,6 +66,7 @@ public class MovieServiceImpl implements MovieService {
         return this.mapper.map(savedMovie, MovieDto.class);
     }
 
+    @Transactional
     @Override
     public MovieDto updateMovie(MovieDto movieDto) throws NotFoundException {
         Movie movieToUpdate = this.mapper.map(movieDto, Movie.class);
@@ -64,7 +77,11 @@ public class MovieServiceImpl implements MovieService {
             movie.setTitle(movieToUpdate.getTitle());
             movie.setYear(movieToUpdate.getYear());
             movie.setGenre(movieToUpdate.getGenre());
-            movie.getMovieDetails().setDetails(movieToUpdate.getMovieDetails().getDetails());
+
+            MovieDetails movieDetails = new MovieDetails();
+            movieDetails.setDetails(movieToUpdate.getMovieDetails().getDetails());
+            movieDetails.setMovie(movie);
+
             movie.getMovieDetails().setMovie(movie);
 
             Movie updatedMovie = this.movieRepository.save(movie);
@@ -89,5 +106,34 @@ public class MovieServiceImpl implements MovieService {
             error.put("movieId", "Movie id " + movieDto.getId() + " not found.");
             throw new NotFoundException("Movie not found.", error);
         }
+    }
+
+    @Transactional
+    @Override
+    public MovieDto assignActorToMovie(Long movieId, Long actorId) throws NotFoundException {
+        Optional<Movie> movieResult = this.movieRepository.findById(movieId);
+        Optional<Actor> actorResult = this.actorRepository.findById(actorId);
+
+        if (movieResult.isPresent() && actorResult.isPresent()){
+            Movie movie = movieResult.get();
+            Actor actor = actorResult.get();
+
+            movie.getActors().add(actor);
+            actor.getMovies().add(movie);
+
+            Movie linkedMovie = this.movieRepository.save(movie);
+            return this.mapper.map(linkedMovie, MovieDto.class);
+
+        }else {
+            Map<String, String> error = new HashMap<>();
+            if (movieResult.isEmpty()){
+                error.put("movieId", "Movie id " + movieId + " not found.");
+            }
+            if (actorResult.isEmpty()){
+                error.put("actorId", "Actor id " + actorId + " not found.");
+            }
+            throw new NotFoundException("Actor Not found.", error);
+        }
+
     }
 }

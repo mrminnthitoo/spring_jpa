@@ -2,17 +2,14 @@ package com.minnthitoo.spring_jpa.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @Entity
-@Data
-@ToString(callSuper = true)
 public class Comment extends BaseEntity{
     @Column
     private String comment;

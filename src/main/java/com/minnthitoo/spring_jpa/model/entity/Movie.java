@@ -1,16 +1,15 @@
 package com.minnthitoo.spring_jpa.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-@ToString(callSuper = true)
+@Getter
+@Setter
 @Entity
 public class Movie extends BaseEntity {
 
@@ -38,7 +37,7 @@ public class Movie extends BaseEntity {
     @JoinColumn(
             name = "movie_id"
     )
-    private List<Comment> comments = new ArrayList<>();
+    private Set<Comment> comments = new HashSet<>();
 
     @ManyToMany(
             cascade = {
@@ -51,7 +50,7 @@ public class Movie extends BaseEntity {
             joinColumns = {@JoinColumn(name = "movie_id")},
             inverseJoinColumns = {@JoinColumn(name = "actor_id")}
     )
-    private List<Actor> actors = new ArrayList<>();
+    private Set<Actor> actors = new HashSet<>();
 
     @ManyToMany(
             cascade = {
@@ -64,6 +63,6 @@ public class Movie extends BaseEntity {
             joinColumns = {@JoinColumn(name = "movie_id")},
             inverseJoinColumns = {@JoinColumn(name = "director_id")}
     )
-    private List<Director> directors = new ArrayList<>();
+    private Set<Director> directors = new HashSet<>();
 
 }

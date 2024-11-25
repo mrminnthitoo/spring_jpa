@@ -2,23 +2,20 @@ package com.minnthitoo.spring_jpa.controller.api;
 
 import com.minnthitoo.spring_jpa.common.response.exception.BeanValidationException;
 import com.minnthitoo.spring_jpa.common.response.exception.NotFoundException;
-import com.minnthitoo.spring_jpa.model.dto.MovieDetailsDto;
+import com.minnthitoo.spring_jpa.model.dto.ActorDto;
 import com.minnthitoo.spring_jpa.model.dto.MovieDto;
-import com.minnthitoo.spring_jpa.model.entity.Movie;
-import com.minnthitoo.spring_jpa.repository.MovieRepository;
+import com.minnthitoo.spring_jpa.service.ActorService;
 import com.minnthitoo.spring_jpa.service.MovieService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/movies")
 public class MovieApiController {
@@ -29,9 +26,18 @@ public class MovieApiController {
     @Autowired
     private MovieService movieService;
 
+    @Autowired
+    private ActorService actorService;
+
     @GetMapping
     ResponseEntity<List<MovieDto>> getAllmovies(){
         return ResponseEntity.ok(this.movieService.getAllMovies());
+    }
+
+    @GetMapping("/title")
+    ResponseEntity<List<MovieDto>> getMovieByTitle(@RequestParam String title){
+        log.error("query method");
+        return ResponseEntity.ok(this.movieService.getMoviesByTitle(title));
     }
 
     @GetMapping("/{movieId}")
@@ -84,6 +90,25 @@ public class MovieApiController {
             Map<String, String> error = new HashMap<>();
             error.put("movieId", "Movie id " + movieId + " not found.");
             throw new NotFoundException("Movie Not Found", error);
+        }
+    }
+
+    @PostMapping("{movieId}/assignment/actor/{actorId}")
+    ResponseEntity<MovieDto> addActorToMovie(@PathVariable Long movieId, @PathVariable Long actorId) throws NotFoundException{
+        Optional<MovieDto> movieResult = this.movieService.getMovieById(movieId);
+        Optional<ActorDto> actorResult = this.actorService.getActorById(actorId);
+        if (movieResult.isPresent() && actorResult.isPresent()){
+            MovieDto movieDto = this.movieService.assignActorToMovie(movieId, actorId);
+            return ResponseEntity.ok(movieDto);
+        }else {
+            Map<String, String> error = new HashMap<>();
+        if (movieResult.isEmpty()){
+            error.put("movieId", "Movie id " + movieId + " not found.");
+        }
+        if (actorResult.isEmpty()){
+            error.put("actorId", "Actor id " + actorId + " not found.");
+        }
+            throw new NotFoundException("Not found.", error);
         }
     }
 
