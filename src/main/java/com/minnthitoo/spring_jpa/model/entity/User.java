@@ -27,4 +27,13 @@ public class User {
     @JoinColumn(name = "user_id")
     Set<Role> roles = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

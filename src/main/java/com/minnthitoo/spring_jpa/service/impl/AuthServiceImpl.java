@@ -8,11 +8,13 @@ import com.minnthitoo.spring_jpa.security.JwtService;
 import com.minnthitoo.spring_jpa.security.SecurityUtil;
 import com.minnthitoo.spring_jpa.service.AuthService;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class AuthServiceImpl implements AuthService {
 

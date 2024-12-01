@@ -22,6 +22,7 @@ public class UserDetailService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userRepository.findByUsername(username);
@@ -29,18 +30,14 @@ public class UserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }else{
 
-            return createSpringSecurityUser(user);
-        }
-    }
+            List<GrantedAuthority> grantedAuthorities = user.getRoles().stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                    .collect(Collectors.toList());
 
-    @Transactional
-    private org.springframework.security.core.userdetails.User createSpringSecurityUser(User user){
-        List<GrantedAuthority> grantedAuthorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole()))
-                .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(),
-                grantedAuthorities);
+            return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                    user.getPassword(),
+                    grantedAuthorities);
+        }
     }
 
 
